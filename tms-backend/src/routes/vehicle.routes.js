@@ -9,20 +9,23 @@ import {
   getAvailableVehicles,
 } from "../controllers/vehicle.controller.js";
 
+import protect from "../middleware/auth.middleware.js";
+import authorize from "../middleware/authorize.middleware.js";
+
 const router = express.Router();
 
-router.post("/", createVehicle);
+router.get("/",protect, authorize("Admin"), getVehicles);
 
-router.get("/", getVehicles);
+router.get("/available",protect, authorize("Admin"), getAvailableVehicles);
 
-router.get("/available", getAvailableVehicles);
+router.get("/:id",protect, authorize("Admin"), getVehicleById);
 
-router.get("/:id", getVehicleById);
+router.post("/",protect, authorize("Admin"), createVehicle);
 
 
-router.put("/:id",updateVehicle);
+router.put("/:id",protect, authorize("Admin"),updateVehicle);
 
-router.delete("/:id",deleteVehicle);
+router.delete("/:id",protect, authorize("Admin"),deleteVehicle);
 
 
 export default router;

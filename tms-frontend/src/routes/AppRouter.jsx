@@ -38,6 +38,9 @@ import Profile from "@/features/auth/pages/profile";
 
 import ProtectedRoute from "@/features/auth/components/ProtectedRoute";
 
+import RoleGuard from "@/features/auth/components/RoleGuard";
+import Unauthorized from "@/pages/Unauthorized";
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -50,33 +53,35 @@ export default function AppRouter() {
 
 
       <Route path="/dashboard" element={<Dashboard />} />
-      <Route path="/vehicles" element={<Vehicles/>}/>
-      <Route path="/vehicles/add" element={<AddVehicle/>}/>
-      <Route path="/vehicles/:id" element={<VehicleDetails/>}/>
-      <Route path="/vehicles/:id/edit" element={<EditVehicle/>}/>
 
-      <Route path="/drivers" element={<Drivers />} />
-      <Route path ="/drivers/add" element={<AddDriver />}/>
-      <Route path ="/drivers/:id" element={<DriverDetails />}/>
-      <Route path ="/drivers/:id/edit" element={<EditDriver />}/>
+      <Route path="/vehicles" element={<RoleGuard roles={["Admin"]}><Vehicles/></RoleGuard>}/>
+      <Route path="/vehicles/add" element={<RoleGuard roles={["Admin"]}><AddVehicle/></RoleGuard>}/>
+      <Route path="/vehicles/:id" element={<RoleGuard roles={["Admin"]}><VehicleDetails/></RoleGuard>}/>
+      <Route path="/vehicles/:id/edit" element={<RoleGuard roles={["Admin"]}><EditVehicle/></RoleGuard>}/>
 
-      <Route path="/shipments" element={<Shipments/>}/>
-      <Route path="/shipments/add" element={<AddShipment />}/>
-      <Route path="/shipments/:id" element={<ShipmentDetails/>}/>
-      <Route path="shipments/:id/edit" element={<EditShipment/>}/>
+      <Route path="/drivers" element={<RoleGuard roles={["Admin"]}><Drivers /></RoleGuard>} />
+      <Route path ="/drivers/add" element={<RoleGuard roles={["Admin"]}><AddDriver /></RoleGuard>}/>
+      <Route path ="/drivers/:id" element={<RoleGuard roles={["Admin"]}><DriverDetails /></RoleGuard>}/>
+      <Route path ="/drivers/:id/edit" element={<RoleGuard roles={["Admin"]}><EditDriver /></RoleGuard>}/>
 
-      <Route path="/trips" element={<Trips/>}/>
-      <Route path="/trips/add" element={<AddTrip/>}/>
-      <Route path="/trips/:id" element={<TripDetails/>}/>
-      <Route path="/trips/:id/edit" element={<EditTrip/>}/>
+      <Route path="/shipments" element={<RoleGuard roles={["Admin","Dispatcher"]}><Shipments/></RoleGuard>}/>
+      <Route path="/shipments/add" element={<RoleGuard roles={["Admin","Dispatcher"]}><AddShipment /></RoleGuard>}/>
+      <Route path="/shipments/:id" element={<RoleGuard roles={["Admin","Dispatcher"]}><ShipmentDetails/></RoleGuard>}/>
+      <Route path="shipments/:id/edit" element={<RoleGuard roles={["Admin","Dispatcher"]}><EditShipment/></RoleGuard>}/>
 
-      <Route path="customers" element={<Customers/>}/>
-      <Route path="customers/add" element={<AddCustomer/>}/>
-      <Route path="customers/:id" element={<CustomerDetails/>}/>
-      <Route path="customers/:id/edit" element={<EditCustomer/>}/>
+      <Route path="/trips" element={<RoleGuard roles={["Admin","Dispatcher"]}><Trips/></RoleGuard>}/>
+      <Route path="/trips/add" element={<RoleGuard roles={["Admin","Dispatcher"]}><AddTrip/></RoleGuard>}/>
+      <Route path="/trips/:id" element={<RoleGuard roles={["Admin","Dispatcher"]}><TripDetails/></RoleGuard>}/>
+      <Route path="/trips/:id/edit" element={<RoleGuard roles={["Admin","Dispatcher"]}><EditTrip/></RoleGuard>}/>
 
-      <Route path="/reports" element={<Reports/>}/>
+      <Route path="customers" element={<RoleGuard roles={["Admin"]}><Customers/></RoleGuard>}/>
+      <Route path="customers/add" element={<RoleGuard roles={["Admin"]}><AddCustomer/></RoleGuard>}/>
+      <Route path="customers/:id" element={<RoleGuard roles={["Admin"]}><CustomerDetails/></RoleGuard>}/>
+      <Route path="customers/:id/edit" element={<RoleGuard roles={["Admin"]}><EditCustomer/></RoleGuard>}/>
+
+      <Route path="/reports" element={<RoleGuard roles={["Admin","Dispatcher"]}><Reports/></RoleGuard>}/>
       <Route path="/profile" element={<Profile/>}/>
+      <Route path="/unauthorized" element={<Unauthorized/>}/>
       </Route>
       <Route path="*" element={<NotFound />} />
     </Routes>
