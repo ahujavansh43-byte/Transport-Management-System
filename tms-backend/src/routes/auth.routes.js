@@ -23,7 +23,7 @@ router.post("/logout", logout);
 
 router.put("/profile",authMiddleware,updateProfile);
 
-router.put("/change-password", authMiddleware, changePassword)
+router.put("/change-password", protect, changePassword)
 
 router.get("/me", protect, getMe);
 

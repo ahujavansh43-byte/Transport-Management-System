@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import useAuth from "../hooks/useAuth";
 import { updateProfile } from "@/api/authApi";
-import { changePassword } from "@/api/authApi";
+
 
 export default function Profile() {
 
@@ -55,45 +55,7 @@ export default function Profile() {
   };
 
 
-    const [passwordData, setPasswordData] =
-  useState({
-    currentPassword: "",
-    newPassword: "",
-    confirmPassword: "",
-  });
-
-   const handlePasswordChange = (e) => {
-  setPasswordData({
-    ...passwordData,
-    [e.target.name]: e.target.value,
-  });
-};
-
-const handlePasswordSubmit = async (e) => {
-  e.preventDefault();
-
-  try {
-
-    await changePassword(passwordData);
-
-    toast.success("Password Changed");
-
-    setPasswordData({
-      currentPassword: "",
-      newPassword: "",
-      confirmPassword: "",
-    });
-
-  } catch (error) {
-
-    toast.error(
-      error.response?.data?.message ||
-      "Failed"
-    );
-
-  }
-};
-
+    
   return (
     <div className="mx-auto max-w-2xl rounded-xl bg-white p-8 shadow">
 
@@ -168,61 +130,6 @@ const handlePasswordSubmit = async (e) => {
         </button>
 
       </form>
-
-      <hr className="my-10" />
-
-<h2 className="mb-6 text-2xl font-bold">
-  Change Password
-</h2>
-
-<form
-  onSubmit={handlePasswordSubmit}
-  className="space-y-5"
->
-
-  <div>
-    <label>Current Password</label>
-
-    <input
-      type="password"
-      name="currentPassword"
-      value={passwordData.currentPassword}
-      onChange={handlePasswordChange}
-      className="mt-2 w-full rounded-lg border p-3"
-    />
-  </div>
-
-  <div>
-    <label>New Password</label>
-
-    <input
-      type="password"
-      name="newPassword"
-      value={passwordData.newPassword}
-      onChange={handlePasswordChange}
-      className="mt-2 w-full rounded-lg border p-3"
-    />
-  </div>
-
-  <div>
-    <label>Confirm Password</label>
-
-    <input
-      type="password"
-      name="confirmPassword"
-      value={passwordData.confirmPassword}
-      onChange={handlePasswordChange}
-      className="mt-2 w-full rounded-lg border p-3"
-    />
-  </div>
-
-  <button
-    className="rounded-lg bg-red-600 px-6 py-3 text-white hover:bg-red-700"
-  >
-    Change Password
-  </button>
-
-</form>
 
     </div>
 

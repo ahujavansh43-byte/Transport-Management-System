@@ -41,6 +41,8 @@ import ProtectedRoute from "@/features/auth/components/ProtectedRoute";
 import RoleGuard from "@/features/auth/components/RoleGuard";
 import Unauthorized from "@/pages/Unauthorized";
 
+import Settings from "@/features/settings/pages/Settings";
+
 export default function AppRouter() {
   return (
     <Routes>
@@ -80,6 +82,8 @@ export default function AppRouter() {
       <Route path="customers/:id/edit" element={<RoleGuard roles={["Admin"]}><EditCustomer/></RoleGuard>}/>
 
       <Route path="/reports" element={<RoleGuard roles={["Admin","Dispatcher"]}><Reports/></RoleGuard>}/>
+      <Route path="/settings" element={<RoleGuard roles={["Admin","Dispatcher","Driver"]}><Settings/></RoleGuard>}/>
+
       <Route path="/profile" element={<Profile/>}/>
       <Route path="/unauthorized" element={<Unauthorized/>}/>
       </Route>

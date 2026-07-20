@@ -13,6 +13,8 @@ import reportRoutes from "./routes/report.routes.js";
 import authRoutes from "./routes/auth.routes.js";
 import cookieParser from "cookie-parser";
 
+import settingRoutes from "./routes/setting.routes.js";
+
 
 const app = express();
 
@@ -35,6 +37,7 @@ app.use("/api/v1/customers",customerRoutes);
 app.use("/api/v1/dashboard",dashboardRoutes);
 app.use("/api/v1/reports", reportRoutes);
 app.use("/api/v1/auth", authRoutes);
+app.use("/api/v1/settings",settingRoutes);
 app.use(cors({origin: "http://localhost:5173",credentials:true,}))
 
 export default app;

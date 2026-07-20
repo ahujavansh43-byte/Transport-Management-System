@@ -179,23 +179,19 @@ export const updateProfile = async (req, res) => {
 
 export const changePassword = async (req, res) => {
   try {
-    const {
-      currentPassword,
-      newPassword,
-      confirmPassword,
-    } = req.body;
+    const { currentPassword, newPassword } = req.body;
 
-    if (!currentPassword || !newPassword || !confirmPassword) {
+    if (!currentPassword || !newPassword) {
       return res.status(400).json({
         success: false,
         message: "All fields are required",
       });
     }
 
-    if (newPassword !== confirmPassword) {
+    if (newPassword.length < 8) {
       return res.status(400).json({
         success: false,
-        message: "Passwords do not match",
+        message: "Password must be at least 8 characters long",
       });
     }
 
