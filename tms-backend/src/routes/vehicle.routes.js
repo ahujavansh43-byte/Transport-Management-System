@@ -16,7 +16,7 @@ const router = express.Router();
 
 router.get("/",protect, authorize("Admin"), getVehicles);
 
-router.get("/available",protect, authorize("Admin"), getAvailableVehicles);
+router.get("/available",protect, authorize("Admin","Dispatcher"), getAvailableVehicles);
 
 router.get("/:id",protect, authorize("Admin"), getVehicleById);
 

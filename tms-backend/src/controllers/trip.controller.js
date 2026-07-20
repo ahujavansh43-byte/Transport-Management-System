@@ -2,7 +2,8 @@ import Trip from "../models/trip.model.js";
 import Vehicle from "../models/vehicle.model.js";
 import Driver from "../models/driver.model.js";
 import Shipment from "../models/shipment.model.js"
-
+import userModel from "../models/user.model.js";
+import { createNotification } from "../services/notification.service.js";
 
 // Create Trip
 export const createTrip = async (req, res) => {
@@ -84,6 +85,24 @@ export const createTrip = async (req, res) => {
       })
       .populate("vehicle", "vehicleNumber")
       .populate("driver", "name");
+
+      // Find the driver document
+// const driver = await Driver.findById(trip.driver);
+
+// Find the corresponding user using email
+const driverUser = await userModel.findOne({
+  email: driver.email,
+});
+
+// Create notification
+if (driverUser) {
+  await createNotification({
+    recipient: driverUser._id,
+    title: "Trip Assigned",
+    message: `Trip ${trip.tripId} has been assigned to you.`,
+    type: "trip",
+  });
+}
 
     res.status(201).json({
       success: true,

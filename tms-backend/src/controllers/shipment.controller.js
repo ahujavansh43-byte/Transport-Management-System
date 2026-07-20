@@ -1,14 +1,33 @@
 import Shipment from "../models/shipment.model.js";
+import { createNotification } from "../services/notification.service.js";
+import userModel from "../models/user.model.js";
+
 
 // Create Shipment
 export const createShipment = async (req, res) => {
   try {
     const shipment = await Shipment.create(req.body);
 
+    // Find all dispatchers
+    const dispatchers = await userModel.find({
+      role: "Dispatcher",
+    });
+
+    // Create notification for every dispatcher
+    for (const dispatcher of dispatchers) {
+      await createNotification({
+        recipient: dispatcher._id,
+        title: "New Shipment",
+        message: `Shipment ${shipment.shipmentId} has been created.`,
+        type: "shipment",
+      });
+    }
+
     res.status(201).json({
       success: true,
       data: shipment,
     });
+
   } catch (error) {
     res.status(500).json({
       success: false,
@@ -122,3 +141,4 @@ export const deleteShipment = async (req, res) => {
     });
   }
 };
+
